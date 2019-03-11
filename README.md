@@ -1,1 +1,1 @@
-# MachineLearning1-Face_Fecognition
+# MachineLearning1-Face_Recognition
