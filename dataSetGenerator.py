@@ -6,7 +6,7 @@ cam = cv2.VideoCapture(0)
 detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
 i=0
 offset=50
-name= "1"
+name= "3"
 while True:
     ret, im =cam.read()
     gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)

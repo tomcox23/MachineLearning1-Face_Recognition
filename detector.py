@@ -22,10 +22,12 @@ while True:
     for(x,y,w,h) in faces:
         nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])
         cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
-        if(nbr_predicted==7):
-             nbr_predicted='Obama'
+        if(nbr_predicted==1):
+             nbr_predicted='Tom'
         elif(nbr_predicted==2):
-             nbr_predicted='Anirban'
+             nbr_predicted='Joshua'
+        elif(nbr_predicted==3):
+             nbr_predicted='Sione'
         cv2.putText(im,str(nbr_predicted)+"--"+str(conf), (x,y+h),fontFace, 1.1, (0,255,0)) #Draw the text
         cv2.imshow('im',im)
         cv2.waitKey(10)
