@@ -4,8 +4,6 @@ https://github.com/ageitgey/face_recognition
 
 # Simple OpenCV Face Recognition in Python
 
-Face Recognition tutorial refference for http://thecodacus.com 
-
 ### Prerequisites
 * Python 3.6.4
 * OpenCV 3.4.1 or opencv-contrib-python 4.0
