@@ -6,7 +6,7 @@ cam = cv2.VideoCapture(0)
 detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
 i=0
 offset=50
-name= "1"
+name= "2"
 os.mkdir("dataSet/"+name) 
 while True:
 	ret, im =cam.read()
