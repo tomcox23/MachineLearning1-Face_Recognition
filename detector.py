@@ -25,7 +25,7 @@ while True:
 		if(nbr_predicted==1):
 			nbr_predicted='Tom'
 		elif(nbr_predicted==2):
-			nbr_predicted='Joshua'
+			nbr_predicted='Tom'
 		elif(nbr_predicted==3):
 			nbr_predicted='Sione'
 		elif(nbr_predicted==4):

@@ -8,17 +8,9 @@ path = os.path.dirname(os.path.abspath(__file__))
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 cascadePath = path+r"\Classifiers\face.xml"
 faceCascade = cv2.CascadeClassifier(cascadePath);
-#dataPath = path+r'\dataSet'
+dataPath = path+r'\dataSet'
 
-
-# Set the directory you want to start from
-rootDir = path+r'\dataSet'
-for dirName, subdirList, fileList in os.walk(rootDir):
-    print('Found directory: %s' % dirName)
-    for fname in fileList:
-        print('\t%s' % fname)
-		
-dataPath = path+r"/dataSet/"+fname
+#dataPath = path+r"/dataSet/"+name
 
 def get_images_and_labels(datapath):
      image_paths = [os.path.join(datapath, f) for f in os.listdir(datapath)]
