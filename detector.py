@@ -25,15 +25,14 @@ while True:
 		if(nbr_predicted==1):
 			nbr_predicted='Tom'
 		elif(nbr_predicted==2):
-			nbr_predicted='Tom'
+			nbr_predicted='Joshua'
 		elif(nbr_predicted==3):
 			nbr_predicted='Sione'
 		elif(nbr_predicted==4):
 			nbr_predicted='David'
 		elif(nbr_predicted==5):
 			nbr_predicted='Laura'
-		elif(nbr_predicted==6):
-			nbr_predicted='Tom'			
+			
 		cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text
 		cv2.imshow('im',im)
 		cv2.waitKey(10)

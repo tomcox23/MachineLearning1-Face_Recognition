@@ -10,17 +10,17 @@ window.geometry('550x200')
 #Name = "6"
 
 def addFace():
-	os.system('dataSetGenerator.py')
+	os.system('python dataSetGenerator.py')
 btn = Button(window, text="Add Face", bg="black", fg="white",command=addFace)
 btn.grid(column=0, row=0, padx= 40, pady=50)
 
 def train():
-	os.system('trainer.py')
+	os.system('python trainer.py')
 btn2 = Button(window, text="Train", bg="black", fg="white",command=train)
 btn2.grid(column=1, row=0, padx= 40)
 
 def detector():
-	os.system('detector.py')
+	os.system('python detector.py')
 btn3 = Button(window, text="Detect", bg="black", fg="white",command=detector)
 btn3.grid(column=2, row=0, padx= 40)
 
