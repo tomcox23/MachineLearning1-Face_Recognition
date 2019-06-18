@@ -24,8 +24,8 @@ all commands run using the anaconda terminal
 
 ### detector.py
 * add new elif statement to the dector.py
-		elif(nbr_predicted==11):
-			nbr_predicted='Sam' 
+		<code>elif(nbr_predicted==11):
+			nbr_predicted='Sam'</code>
  * The predictor number must be the same as the Name "11" in order to know who it is looiking at. ie predicting image set 11.
  * Run python detector.py
 
