@@ -1,23 +1,33 @@
-# MachineLearning1-Face_Recognition
-https://github.com/ageitgey/face_recognition
+### Installing
+* how to install in the anaconda terminal I used eg. <code>Pip install Numpy</code> or <code>conda Install Numpy</code>
 
-
-# Simple OpenCV Face Recognition in Python
-
-### Prerequisites
-* Python 3.6.4
-* OpenCV 3.4.1 or opencv-contrib-python 4.0
+* Python 3.6.4. ideally python 3.7 to get Tkinter to work for the GUI.
+* OpenCV 3.4.1 
+* opencv-contrib-python 4.0 This fixed cv2 no attribute errors
 * Numpy
 * Pillow
-*pip install opencv-contrib-python
+* Tkinter, should come with python 3.7
 
-### Installing
+Folders that need to be created in the root working directory.
 
 * Create an empty Folder named **"dataSet"** in the same directory where the python scripts are 
 * Create an empty folder called **trainer** In same directory 
 
-## Running the tests
+## Running Instructions 
+all commands run using the anaconda terminal
+### dataSetGenerator
+* In dataSetGenerator.py change Name "" to eg Name "11". this will set the name for the users imgages and folders. it must be an integer though. Next you run python dataSetGenerator.py.
+* Note, make sure the person you are taking a photo of is actually in the camera frame or it will error out if no face is being detected.
 
-* run the dataSetGenerator.py and enter a unique id to create face samples with your face
-* run trainer.py
-* run detector.py
+### trainer
+* run python trainer.py.
+
+### detector
+* add new elif statement to the dector.py
+		<code>elif(nbr_predicted==11):
+			nbr_predicted='Sam'</code>
+ * The predictor number must be the same as the Name "11" in order to know who it is looiking at. ie predicting image set 11.
+ * Run python detector.py
+ 
+### GUI
+* To use the GUI run python GUI.py you will be able to run each script from in the GUI as well. 
