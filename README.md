@@ -31,3 +31,8 @@ all commands run using the anaconda terminal
  
 ### GUI
 * To use the GUI run python GUI.py you will be able to run each script from in the GUI as well. 
+
+
+### Issue Fix
+
+- no cv2 idendified = pip install opencv-python
