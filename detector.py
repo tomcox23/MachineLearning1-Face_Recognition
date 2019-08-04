@@ -31,7 +31,7 @@ while True:
 	for(x,y,w,h) in faces:
 		nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])  # Recognize the face belongs to which Name ID
 		cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
-		 # Check the if ID exist 
+		 # Check if the ID exist 
 		if(nbr_predicted==1): # ==1 is refernce to image set 1
 			nbr_predicted='Tom' # set the actual name to be displayed in the video stream
 		elif(nbr_predicted==2):
@@ -49,7 +49,7 @@ while True:
 		elif(nbr_predicted==8):
 			nbr_predicted='Joe'
 		elif(nbr_predicted==9):
-			nbr_predicted='Adon'		
+			nbr_predicted='Adon'
 		else:
 			nbr_predicted='Unknown'
 		

@@ -1,7 +1,7 @@
 ### Installing
 * how to install in the anaconda terminal I used eg. <code>Pip install Numpy</code> or <code>conda Install Numpy</code>
 
-* Python 3.6.4. ideally python 3.7 to get Tkinter to work for the GUI.
+* Python 3.7
 * OpenCV 3.4.1 
 * opencv-contrib-python 4.0 This fixed cv2 no attribute errors
 * Numpy
@@ -23,7 +23,7 @@ all commands run using the anaconda terminal
 * run python trainer.py.
 
 ### detector
-* add new elif statement to the dector.py
+* add new elif statement to the detector.py
 		<code>elif(nbr_predicted==11):
 			nbr_predicted='Sam'</code>
  * The predictor number must be the same as the Name "11" in order to know who it is looiking at. ie predicting image set 11.
