@@ -7,8 +7,6 @@ window=Tk()
 window.title("Running Python Script")
 window.geometry('550x200')
 
-#Name = "6"
-
 #Tell add face button to run dataSetGenerator.py script on click
 def addFace():
 	os.system('python dataSetGenerator.py')
@@ -25,7 +23,7 @@ def train():
 btn2 = Button(window, text="Train", bg="black", fg="white",command=train)
 btn2.grid(column=1, row=0, padx= 40)
 
-# Tell setector button to run detector.py script on click
+# Tell detector button to run detector.py script on click
 def detector():
 	os.system('python detector.py')
 	
@@ -45,15 +43,31 @@ def setName():
 	Name = txt.get()
 	lbl.configure(text= Name)
 	
-	#create Button + parameters, reference to def setName 
-btn3 = Button(window, text="Set Name", bg="black", fg="white",command=setName)
-btn3.grid(column=2, row=2)
-
-#create set name text box
+	#create set name text box
 txt = Entry(window,width=15)
 txt.grid(column=1, row=2)
 
-lbl = Label(window, text="Name Variable")
+lbl = Label(window, text="Name")
 lbl.grid(column=1, row=1)
+
+	#create Button + parameters, reference to def setName 
+btn3 = Button(window, text="Set Name", bg="black", fg="white",command=setName)
+btn3.grid(column=2, row=2)
+	
+
+def setID():
+	ID = txtID.get()
+	lbl.configure(text= ID)
+	
+#create set ID text box
+txt2 = Entry(window,width=15)
+txt2.grid(column=1, row=6)
+
+lbl2 = Label(window, text="ID")
+lbl2.grid(column=1, row=4)
+
+	#create Button + parameters, reference to def setName 
+btn4 = Button(window, text=" Set ID ", bg="black", fg="white",command=setName)
+btn4.grid(column=2, row=6)
 
 window.mainloop()
