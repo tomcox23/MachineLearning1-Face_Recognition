@@ -11,8 +11,8 @@ window.title("Running Python Script")
 window.geometry('550x200')
 
 dict={
-    1 : "Tom",
-    2 : "Joshua"
+    "1" : "Tom",
+    "2" : "Joshua"
 
 }
 
@@ -21,11 +21,10 @@ def addFace():
     name = txt_name.get()
     id_number = txt_id.get()
     path = os.path.dirname(os.path.abspath(__file__))
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(cv2.CAP_DSHOW)
     detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
     i=0
     offset=50
-    #id_number needs to be a number ie a student id number
     os.mkdir("dataSetFolders/"+id_number) # make directory dataSetFolders/
     dict[id_number] = name
     print(dict)
@@ -33,24 +32,28 @@ def addFace():
     while True:
         ret, im=cam.read()  # Read the video frame
         #take 21 images of a persons face and save images
-        #if(im is not None):
-        gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) # Convert the captured frame into grayscale
-        faces=detector.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
-        cv2.imshow('im',im)
+        if(im is not None):
+            gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) # Convert the captured frame into grayscale
+            faces=detector.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
+            cv2.imshow('im',im)
             
-        for(x,y,w,h) in faces:
-            i+=1
-            cv2.imwrite("dataSet/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
-            cv2.imwrite("dataSetFolders/"+id_number+"/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
-            cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
-            cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
-            cv2.waitKey(100)
-        
-            if i>20:
-                cam.release()
-                cv2.destroyWindow('im')
+            for(x,y,w,h) in faces:
+                i+=1
+                cv2.imwrite("dataSet/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
+                cv2.imwrite("dataSetFolders/"+id_number+"/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
+                cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
+                cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
+                cv2.waitKey(100)
+            
+                if i>20:
+                    cam.release()
+                    cv2.destroyWindow('im')
+                break
+
+        else:  
             break
-    
+           
+        
 
 	
 	
@@ -118,7 +121,7 @@ def detector():
     faceCascade = cv2.CascadeClassifier(cascadePath);
 
     # Initialize and start the video frame capture
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(cv2.CAP_DSHOW)
 
     # Set the font style
     fontFace = cv2.FONT_HERSHEY_SIMPLEX  #Creates a font
@@ -136,8 +139,8 @@ def detector():
             nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])  # Recognize the face belongs to which id_number
             cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
 			
-            if nbr_predicted in dict:
-                nbr_predicted = dict[nbr_predicted]
+            if str(nbr_predicted) in dict:
+                nbr_predicted = dict[str(nbr_predicted)]
             #print(dict)
             else:
                 nbr_predicted = "unknown"
