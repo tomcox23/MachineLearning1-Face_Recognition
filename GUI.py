@@ -9,27 +9,29 @@ window=Tk()
 
 window.title("Running Python Script")
 window.geometry('550x200')
-
+id_number = 0
 dict={
-    "1" : "Tom",
-    "2" : "Joshua"
+
 
 }
 
 
 def addFace():
     name = txt_name.get()
-    id_number = txt_id.get()
+
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
     detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
     i=0
     offset=50
-    os.mkdir("dataSetFolders/"+id_number) # make directory dataSetFolders/
+    os.mkdir("dataSetFolders/"+str(id_number)) # make directory dataSetFolders/
     dict[id_number] = name
     print(dict)
+    id_number+=1
     
     while True:
+        
+        
         ret, im=cam.read()  # Read the video frame
         #take 21 images of a persons face and save images
         if(im is not None):
@@ -39,8 +41,8 @@ def addFace():
             
             for(x,y,w,h) in faces:
                 i+=1
-                cv2.imwrite("dataSet/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
-                cv2.imwrite("dataSetFolders/"+id_number+"/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
+                cv2.imwrite("dataSet/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
+                cv2.imwrite("dataSetFolders/"+str(id_number)+"/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
                 cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
                 cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
                 cv2.waitKey(100)
@@ -49,6 +51,7 @@ def addFace():
                     cam.release()
                     cv2.destroyWindow('im')
                 break
+                print (id_number)
 
         else:  
             break
@@ -171,16 +174,6 @@ def Exit():
 	#create Button + parameters, reference to def Exit 
 btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
 btn_exit.grid(column=4, row=0, padx= 40)
-
-# def setName():
-	# name = txt_name.get()
-	# id_number = txt_id.get()
-	# dict[id_number]=name
-	# print(dict)
-	
-# create Button + parameters, reference to def setName 
-# btn_set_variables = Button(window, text="Set Variables", bg="black", fg="white",command=setName)
-# btn_set_variables.grid(column=2, row=2)
 
 #create set name text box
 lbl_name = Label(window, text="Name")
