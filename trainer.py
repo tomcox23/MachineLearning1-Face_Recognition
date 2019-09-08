@@ -2,7 +2,6 @@ import cv2,os
 import numpy as np
 from PIL import Image 
 
-
 #name = "3"
 path = os.path.dirname(os.path.abspath(__file__))
 recognizer = cv2.face.LBPHFaceRecognizer_create()
