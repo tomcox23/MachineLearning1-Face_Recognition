@@ -15,16 +15,17 @@ dict={
 
 }
 
+id_number = 1
 
 def addFace():
     name = txt_name.get()
-    id_number = txt_id.get()
+    global id_number
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
     detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
     i=0
     offset=50
-    os.mkdir("dataSetFolders/"+id_number) # make directory dataSetFolders/
+    os.mkdir("dataSetFolders/"+str(id_number)) # make directory dataSetFolders/
     dict[id_number] = name
     print(dict)
     
@@ -40,8 +41,8 @@ def addFace():
             
             for(x,y,w,h) in faces:
                 i+=1
-                cv2.imwrite("dataSet/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
-                cv2.imwrite("dataSetFolders/"+id_number+"/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
+                cv2.imwrite("dataSet/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
+                cv2.imwrite("dataSetFolders/"+str(id_number)+"/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
                 cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
                 cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
                 cv2.waitKey(100)
@@ -49,12 +50,14 @@ def addFace():
                 if i>20:
                     cam.release()
                     cv2.destroyWindow('im')
+                    id_number = id_number + 1
+                    print (id_number)
                 break
-                #print (id_number)
+                
 
         else:  
             break
-           
+       
         
 
 	
@@ -144,8 +147,8 @@ def detector():
             if str(nbr_predicted) in dict:
                 nbr_predicted = dict[str(nbr_predicted)]
             #print(dict)
-            else:
-                nbr_predicted = "unknown"
+            #else:
+                #nbr_predicted = "unknown"
             # Check the if ID exist 
             
         cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
@@ -178,13 +181,13 @@ btn_exit.grid(column=4, row=0, padx= 40)
 lbl_name = Label(window, text="Name")
 lbl_name.grid(column=0, row=1)
 
-lbl_id = Label(window, text="ID Number")
-lbl_id.grid(column=0, row=4)
+#lbl_id = Label(window, text="ID Number")
+#lbl_id.grid(column=0, row=4)
 
 txt_name = Entry(window,width=15)
 txt_name.grid(column=1, row=1)
 
-txt_id = Entry(window,width=15)
-txt_id.grid(column=1, row=4)
+#txt_id = Entry(window,width=15)
+#txt_id.grid(column=1, row=4)
 
 window.mainloop()
