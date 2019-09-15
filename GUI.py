@@ -4,31 +4,48 @@ import os
 import numpy as np
 import PIL.Image 
 from tkinter import *
+import json
 
 window=Tk()
 
 window.title("Running Python Script")
 window.geometry('550x200')
 
-dict={
 
+user_dict = {
 
 }
 
-id_number = 1
+id = 1
 
-def addFace():
+try:
+    with open('users.json', 'r') as f:
+        user_dict = json.loads(f.read())
+    id = len(user_dict.keys()) + 1
+except:
+    print("An exception occurred")
+
+
+
+
+def addFace(id):
     name = txt_name.get()
-    global id_number
+    id_number = id
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
     detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
     i=0
     offset=50
     os.mkdir("dataSetFolders/"+str(id_number)) # make directory dataSetFolders/
-    dict[str(id_number)] = name
-    print(dict)
+    user_dict[str(id_number)] = name
+    print(user_dict)
     
+    j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
+    with open('users.json', 'w') as f:
+        f.write(j)
+    
+    print(user_dict)
+
     while True:
         
         
@@ -50,8 +67,8 @@ def addFace():
                 if i>20:
                     cam.release()
                     cv2.destroyWindow('im')
-                    id_number = id_number + 1
-                    print (id_number)
+                    id_number += 1
+                    #print (id_number)
                 break
                 
 
@@ -63,7 +80,7 @@ def addFace():
 	
 	
 #create Button + parameters, reference to def addFace
-btn_add_face = Button(window, text="Add Face", bg="black", fg="white",command=addFace)
+btn_add_face = Button(window, text="Add Face", bg="black", fg="white",command=lambda: addFace(id))
 btn_add_face.grid(column=0, row=0, padx= 40, pady=50)
 
 
@@ -144,9 +161,8 @@ def detector():
             nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])  # Recognize the face belongs to which id_number
             cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
 			
-            if str(nbr_predicted) in dict:
-                nbr_predicted = dict[str(nbr_predicted)]
-            #print(dict)
+            if str(nbr_predicted) in user_dict:
+                nbr_predicted = user_dict[str(nbr_predicted)]
             else:
                 nbr_predicted = "unknown"
             # Check the if ID exist 
