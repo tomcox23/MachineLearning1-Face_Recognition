@@ -26,7 +26,7 @@ def addFace():
     i=0
     offset=50
     os.mkdir("dataSetFolders/"+str(id_number)) # make directory dataSetFolders/
-    dict[id_number] = name
+    dict[str(id_number)] = name
     print(dict)
     
     while True:
@@ -147,8 +147,8 @@ def detector():
             if str(nbr_predicted) in dict:
                 nbr_predicted = dict[str(nbr_predicted)]
             #print(dict)
-            #else:
-                #nbr_predicted = "unknown"
+            else:
+                nbr_predicted = "unknown"
             # Check the if ID exist 
             
         cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
