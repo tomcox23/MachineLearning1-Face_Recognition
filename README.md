@@ -1,4 +1,7 @@
-### Installing
+### Installation. 
+
+# The current master comes In a pip enviroment so no manual installation of any libraries is needed
+
 * how to install in the anaconda terminal I used eg. <code>Pip install Numpy</code> or <code>conda Install Numpy</code>
 
 * Python 3.6.4. ideally python 3.7 to get Tkinter to work for the GUI.
