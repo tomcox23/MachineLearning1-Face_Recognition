@@ -18,15 +18,33 @@ Folders that need to be created in the root working directory.
 * Create an empty Folder named **"dataSetFolders"** in the same directory
 * Create an empty folder called **trainer** In same directory 
 
-## Running Instructions 
+## How To Use
 all commands run using the anaconda terminal. run by typing "python GUI.py" to run the user interface for example.
-
 
 ### GUI
 * All scripts have been merged into the GUI.py script. The other seperate Scripts are now not used at all. "dataSetGenerator","trainer","detector"
-* To use the GUI run python GUI.py you will be able to run each script from in the GUI as well.
+* To use the GUI run <code>python GUI.py</code> you will be able to run each script from in the GUI as well.
+
+#### First 
+* Add a name to the Name text Box
+#### Second
+* make sure you are the only person infront of the camera
+* Make sure you are not too close or far away from the camera and look directly at it.
+* Click add Face Button. this wll take 21 images of your face.
+#### Third
+* Click the Train Button. 
+
+#### Forth
+* Click detect
+* This will bring up the camera window identifying whoever is in the frame
+* Push "Q" button to exit the camera window and go back to the GUI.
+#### Fifth 
+* Click Exit button to exit the program
 
 
+
+
+## Old How To Use
 
 ### dataSetGenerator
 * In dataSetGenerator.py change Name "" to eg Name "11". this will set the name for the users imgages and folders. it must be an integer though. Next you run python dataSetGenerator.py.
@@ -36,12 +54,9 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 * run python trainer.py.
 
 ### detector
-* add new elif statement to the dector.py
-		<code>elif(nbr_predicted==11):
-			nbr_predicted='Sam'</code>
  * The predictor number must be the same as the Name "11" in order to know who it is looiking at. ie predicting image set 11.
  * Run python detector.py
- 
+
 ### Issue Fix
 
 - no cv2 idendified = pip install opencv-python
