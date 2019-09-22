@@ -24,14 +24,13 @@ try:
         user_dict = json.loads(f.read())
     id = len(user_dict.keys()) + 1
 except:
-    print("An exception occurred")
-
-            
+    print("An exception occurred")          
             
             
 def addFace(id):
+
     name = txt_name.get()
-    id_number = id # ERROR id_number is being set back to id
+    id_number = id # ERROR id_number is being set back to id LOOP
     print("id number at start ",id_number)
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
@@ -54,6 +53,7 @@ def addFace(id):
     
     print(user_dict)
 
+    
     try:
         while True:
             
@@ -97,7 +97,6 @@ btn_add_face = Button(window, text="Add Face", bg="black", fg="white",command=la
 btn_add_face.grid(column=0, row=0, padx= 40, pady=50)
 
 
-
 def train():
     path = os.path.dirname(os.path.abspath(__file__))
     recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -105,6 +104,7 @@ def train():
     faceCascade = cv2.CascadeClassifier(cascadePath);
     dataPath = path+r'\dataSet'
 
+    
     def get_images_and_labels(datapath):
         image_paths = [os.path.join(datapath, f) for f in os.listdir(datapath)]
         # images will contains face images
@@ -141,6 +141,7 @@ def train():
 	#create Button + parameters, reference to def train 
 btn_train = Button(window, text="Train", bg="black", fg="white",command=train)
 btn_train.grid(column=1, row=0, padx= 40)
+
 
 # Tell detector button to run detector.py script on click
 def detector():
