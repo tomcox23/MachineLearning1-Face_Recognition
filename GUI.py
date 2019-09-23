@@ -76,7 +76,7 @@ def addFace():
                         cam.release()
                         cv2.destroyWindow('im')
                         id_number += 1
-                        print("Successful photo set id number ",id_number)
+                        print("Successfully taken photos set id number is ",id_number)
 
                     break
                     
@@ -88,7 +88,7 @@ def addFace():
         shutil.rmtree("dataSetFolders/"+str(id_number)) # removes directory dataSetFolders/
         del user_dict[str(id_number)]
         print(user_dict)
-        print("Face too close id number ",id_number)
+        #print("Face too close id number ",id_number)
         
         
 #create Button + parameters, reference to def addFace
