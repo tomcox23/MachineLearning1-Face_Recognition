@@ -242,18 +242,20 @@ class ListUserBox :
                 j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
                 with open('users.json', 'w') as f:
                     f.write(j)
+                print(user_dict)
                 shutil.rmtree("dataSetFolders/"+str(rest))
                 f=0
                 while f < 21:
                     f += 1
                     os.remove("dataSet/face-"+str(rest) +'.'+ str(f) + ".jpg")
+                    
                 break
             except KeyError:
                 print("Key not found")
             
 
             
-            print(user_dict)
+            
             
             
             
