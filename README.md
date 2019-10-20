@@ -38,7 +38,7 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 * Make sure you are not too close or far away from the camera and look directly at it.
 * Click add Face Button. this wll take 21 images of your face.
 
-![image window](/readmeImages/addface2.PNG)
+![image window](/readmeImages/addface2.png)
 
 ![console output](/readmeImages/AddfaceConsole.PNG)
 
