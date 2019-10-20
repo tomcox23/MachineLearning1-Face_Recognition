@@ -28,7 +28,9 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 ![GUI Layout](/readmeImages/GUI.PNG)
 
 #### First 
+
 * Add a name to the Name text Box
+
 ![write name in text box](/readmeImages/Name1.PNG)
 
 #### Second
@@ -36,7 +38,7 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 * Make sure you are not too close or far away from the camera and look directly at it.
 * Click add Face Button. this wll take 21 images of your face.
 
-![photo window and GUI](/readmeImages/Addface2.PNG)
+![image window](/readmeImages/Addface2.PNG)
 
 ![console output](/readmeImages/AddfaceConsole.PNG)
 
