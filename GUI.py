@@ -10,7 +10,7 @@ import json
 window=Tk()
 
 window.title("Running Python Script")
-window.geometry('550x200')
+window.geometry('550x400')
 
 
 user_dict = {
@@ -29,7 +29,7 @@ except:
 def addFace():
 
     name = txt_name.get()
-    id_number = len(user_dict.keys()) + 1 # ERROR id_number is being set back to id LOOP
+    id_number = len(user_dict.keys()) + 1
     print("id number at start ",id_number)
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
@@ -75,8 +75,9 @@ def addFace():
                     if i>20:
                         cam.release()
                         cv2.destroyWindow('im')
-                        id_number += 1
                         print("Successfully taken photos set id number is ",id_number)
+                        id_number += 1
+                        
 
                     break
                     
@@ -202,9 +203,63 @@ def detector():
 btn_detect = Button(window, text="Detect", bg="black", fg="white",command=detector)
 btn_detect.grid(column=2, row=0, padx= 40)
 
+def deleteUser():
+
+    lbt=ListUserBox()
+        
+        
+    
+    
+class ListUserBox :
+    def __init__(self) :
+        self.root = Tk()
+        self.list_box_1 = Listbox(self.root, width = 50, selectmode=EXTENDED)
+        self.list_box_1.pack(fill = BOTH, expand=True)
+        self.delete_button = Button(self.root, text="Delete",command=self.DeleteSelection)
+        self.delete_button.pack()
+        
+        
+        for key in sorted(user_dict):
+            self.list_box_1.insert(END, '{}: {}'.format(key, user_dict[key]))
+
+    def DeleteSelection(self) :
+        items = self.list_box_1.curselection()
+        pos = 0
+        for i in items :
+            id_number = self.list_box_1.get(i)
+            idx = int(i) - pos
+            self.list_box_1.delete( idx,idx )
+            pos = pos + 1
+            
+            text = str(id_number)
+            sep = ':'
+            rest = text.split(sep, 1)[0]
+        
+            try:
+                print(id_number + " has been deleted")
+                #print(int(rest))
+                del user_dict[str(rest)]
+                j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
+                with open('users.json', 'w') as f:
+                    f.write(j)
+                shutil.rmtree("dataSetFolders/"+str(rest))
+                f=0
+                while f < 21:
+                    f += 1
+                    os.remove("dataSet/face-"+str(rest) +'.'+ str(f) + ".jpg")
+                break
+            except KeyError:
+                print("Key not found")
+            
+
+            
+            print(user_dict)
+            
+            
+            
 # tell exit button to quit GUI on click
 def Exit():
-	quit()
+    quit()
 	
 	#create Button + parameters, reference to def Exit 
 btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
@@ -220,7 +275,8 @@ lbl_name.grid(column=0, row=1)
 txt_name = Entry(window,width=15)
 txt_name.grid(column=1, row=1)
 
-#txt_id = Entry(window,width=15)
-#txt_id.grid(column=1, row=4)
+#user list button
+btn_deleteUser = Button(window, text="User List", bg="black", fg="white",command=deleteUser)
+btn_deleteUser.grid(column=0, row=10, padx= 40)
 
 window.mainloop()
