@@ -25,6 +25,8 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 * All scripts have been merged into the GUI.py script. The other seperate Scripts are now not used at all. "dataSetGenerator","trainer","detector"
 * To use the GUI run <code>python GUI.py</code> you will be able to run each script from in the GUI as well.
 
+![GUI Layout](/readmeImages/GUI.PNG)
+
 #### First 
 * Add a name to the Name text Box
 #### Second
