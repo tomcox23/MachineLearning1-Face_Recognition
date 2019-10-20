@@ -29,10 +29,15 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 
 #### First 
 * Add a name to the Name text Box
+![write name in text box](/readmeImages/Name1.PNG)
+
 #### Second
 * make sure you are the only person infront of the camera
 * Make sure you are not too close or far away from the camera and look directly at it.
 * Click add Face Button. this wll take 21 images of your face.
+![photo window and GUI](/readmeImages/Addface2.PNG)
+![console output](/readmeImages/AddfaceConsole.PNG)
+* The console will display the new list of people added and if the photos were successful
 #### Third
 * Click the Train Button. 
 
@@ -40,9 +45,9 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 * Click detect
 * This will bring up the camera window identifying whoever is in the frame
 * Push "Q" button to exit the camera window and go back to the GUI.
+![Detect window and GUI](/readmeImages/Detect.PNG)
 #### Fifth 
 * Click Exit button to exit the program
-
 
 
 
