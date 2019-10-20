@@ -4,6 +4,7 @@ from PIL import Image
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+# test commit
 # Create Local Binary Patterns Histograms for face recognization
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 # Load the trained mode

@@ -1,68 +1,99 @@
 import sys
 import cv2
 import os
+import shutil
 import numpy as np
 import PIL.Image 
 from tkinter import *
+import json
 
 window=Tk()
 
 window.title("Running Python Script")
 window.geometry('550x200')
 
-dict={
 
+user_dict = {
 
 }
 
 
+try:
+    with open('users.json', 'r') as f:
+        user_dict = json.loads(f.read())
+    
+except:
+    print("An exception occurred")          
+     
+     
 def addFace():
+
     name = txt_name.get()
-    id_number = txt_id.get()
+    id_number = len(user_dict.keys()) + 1 # ERROR id_number is being set back to id LOOP
+    print("id number at start ",id_number)
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
     detector=cv2.CascadeClassifier(path+r'\Classifiers\face.xml')
     i=0
     offset=50
-    os.mkdir("dataSetFolders/"+id_number) # make directory dataSetFolders/
-    dict[id_number] = name
-    print(dict)
     
-    while True:
+    try:
+        os.mkdir("dataSetFolders/"+str(id_number)) # make directory dataSetFolders/
+        print("id number mkdir",id_number)
+    except:
+        print("dataSetFolder already exists error")
+        print("id number mkdir except ",id_number)
         
+    user_dict[str(id_number)] = name
         
-        ret, im=cam.read()  # Read the video frame
-        #take 21 images of a persons face and save images
-        if(im is not None):
-            gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) # Convert the captured frame into grayscale
-            faces=detector.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
-            cv2.imshow('im',im)
+    j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
+    with open('users.json', 'w') as f:
+        f.write(j)
+    
+    print(user_dict)
+
+    
+    try:
+        while True:
             
-            for(x,y,w,h) in faces:
-                i+=1
-                cv2.imwrite("dataSet/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
-                cv2.imwrite("dataSetFolders/"+id_number+"/face-"+id_number +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
-                cv2.rectangle(im,(x-50,y-50),(x+w+50,y+h+50),(225,0,0),2)
-                cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
-                cv2.waitKey(100)
             
-                if i>20:
-                    cam.release()
-                    cv2.destroyWindow('im')
+            ret, im=cam.read()  # Read the video frame
+            #take 21 images of a persons face and save images
+            if(im is not None):
+                gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) # Convert the captured frame into grayscale
+                faces=detector.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
+                cv2.imshow('im',im)
+                
+                for(x,y,w,h) in faces:
+                    i+=1
+                    cv2.imwrite("dataSet/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) #save images to dataset folder for the trainer script to access
+                    cv2.imwrite("dataSetFolders/"+str(id_number)+"/face-"+str(id_number) +'.'+ str(i) + ".jpg", gray[y-offset:y+h+offset,x-offset:x+w+offset]) # save images to individual folders for each person, this is for image backups 
+                    cv2.rectangle(im,(x-offset,y-offset),(x+w+offset,y+h+offset),(225,0,0),2)
+                    cv2.imshow('im',im[y-offset:y+h+offset,x-offset:x+w+offset])
+                    cv2.waitKey(100)
+                
+                    if i>20:
+                        cam.release()
+                        cv2.destroyWindow('im')
+                        id_number += 1
+                        print("Successfully taken photos set id number is ",id_number)
+
+                    break
+                    
+
+            else:  
                 break
-                #print (id_number)
-
-        else:  
-            break
-           
+    except:  
+        print("An error occurred. Try moving your face back from the camera")
+        shutil.rmtree("dataSetFolders/"+str(id_number)) # removes directory dataSetFolders/
+        del user_dict[str(id_number)]
+        print(user_dict)
+        #print("Face too close id number ",id_number)
         
-
-	
-	
+        
 #create Button + parameters, reference to def addFace
-btn_add_face = Button(window, text="Add Face", bg="black", fg="white",command=addFace)
+btn_add_face = Button(window, text="Add Face", bg="black", fg="white",command=lambda: addFace())
 btn_add_face.grid(column=0, row=0, padx= 40, pady=50)
-
 
 
 def train():
@@ -72,6 +103,7 @@ def train():
     faceCascade = cv2.CascadeClassifier(cascadePath);
     dataPath = path+r'\dataSet'
 
+    
     def get_images_and_labels(datapath):
         image_paths = [os.path.join(datapath, f) for f in os.listdir(datapath)]
         # images will contains face images
@@ -109,6 +141,7 @@ def train():
 btn_train = Button(window, text="Train", bg="black", fg="white",command=train)
 btn_train.grid(column=1, row=0, padx= 40)
 
+
 # Tell detector button to run detector.py script on click
 def detector():
     path = os.path.dirname(os.path.abspath(__file__))
@@ -129,39 +162,42 @@ def detector():
     fontFace = cv2.FONT_HERSHEY_SIMPLEX  #Creates a font
     fontScale = 1 
     fontColor = (255, 255, 255)
-
-    while True:
-
-        ret, im =cam.read()    # Read the video frame
-        gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)     # Convert the captured frame into grayscale
-        faces=faceCascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
+    
+    try:
+        while True:
+    
+            ret, im =cam.read()    # Read the video frame
+            gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)     # Convert the captured frame into grayscale
+            faces=faceCascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
+            
+            # For each face in faces
+            for(x,y,w,h) in faces:
+                nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])  # Recognize the face belongs to which id_number
+                cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
+                
+                if str(nbr_predicted) in user_dict:
+                    nbr_predicted = user_dict[str(nbr_predicted)]
+                else:
+                    nbr_predicted = "unknown"
+                # Check the if ID exist 
+                
+            cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
+            cv2.imshow('Face Detector',im)
+    
+            # If 'q' is pressed, close window
+            if cv2.waitKey(2) & 0xFF == ord('q'):
+                break
+            
+        # Stop the camera
+        cam.release()
+    
+        # Close all windows
+        cv2.destroyAllWindows()
         
-        # For each face in faces
-        for(x,y,w,h) in faces:
-            nbr_predicted, conf = recognizer.predict(gray[y:y+h,x:x+w])  # Recognize the face belongs to which id_number
-            cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
-			
-            if str(nbr_predicted) in dict:
-                nbr_predicted = dict[str(nbr_predicted)]
-            #print(dict)
-            else:
-                nbr_predicted = "unknown"
-            # Check the if ID exist 
-            
-        cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
-        cv2.imshow('Face Detector',im)
-
-        # If 'q' is pressed, close window
-        if cv2.waitKey(2) & 0xFF == ord('q'):
-            break
-            
-    # Stop the camera
-    cam.release()
-
-    # Close all windows
-    cv2.destroyAllWindows()
-	
-
+    except:
+        print("No faces detected in frame.")
+        print("Make sure you are infront of the camera")
+        
 #create Button + parameters, reference to def detector
 btn_detect = Button(window, text="Detect", bg="black", fg="white",command=detector)
 btn_detect.grid(column=2, row=0, padx= 40)
@@ -178,13 +214,13 @@ btn_exit.grid(column=4, row=0, padx= 40)
 lbl_name = Label(window, text="Name")
 lbl_name.grid(column=0, row=1)
 
-lbl_id = Label(window, text="ID Number")
-lbl_id.grid(column=0, row=4)
+#lbl_id = Label(window, text="ID Number")
+#lbl_id.grid(column=0, row=4)
 
 txt_name = Entry(window,width=15)
 txt_name.grid(column=1, row=1)
 
-txt_id = Entry(window,width=15)
-txt_id.grid(column=1, row=4)
+#txt_id = Entry(window,width=15)
+#txt_id.grid(column=1, row=4)
 
 window.mainloop()

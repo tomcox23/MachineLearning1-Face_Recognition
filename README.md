@@ -60,3 +60,4 @@ all commands run using the anaconda terminal. run by typing "python GUI.py" to r
 ### Issue Fix
 
 - no cv2 idendified = pip install opencv-python
+
