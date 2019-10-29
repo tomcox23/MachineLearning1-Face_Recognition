@@ -10,7 +10,7 @@ import json
 window=Tk()
 
 window.title("Running Python Script")
-window.geometry('550x400')
+window.geometry('550x250')
 
 
 user_dict = {
@@ -208,8 +208,30 @@ def deleteUser():
     lbt=ListUserBox()
         
         
-    
-    
+# tell exit button to quit GUI on click
+def Exit():
+    quit()
+	
+	#create Button + parameters, reference to def Exit 
+btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
+btn_exit.grid(column=4, row=0, padx= 40)
+
+#create set name text box
+lbl_name = Label(window, text="Name")
+lbl_name.grid(column=0, row=1)
+
+#lbl_id = Label(window, text="ID Number")
+#lbl_id.grid(column=0, row=4)
+
+txt_name = Entry(window,width=15)
+txt_name.grid(column=1, row=1)
+
+#user list button
+btn_deleteUser = Button(window, text="User List", bg="black", fg="white",command=deleteUser)
+btn_deleteUser.grid(column=0, row=10, padx= 40)
+
+window.mainloop()
+
 class ListUserBox :
     def __init__(self) :
         self.root = Tk()
@@ -253,32 +275,3 @@ class ListUserBox :
             except KeyError:
                 print("Key not found")
             
-
-            
-            
-            
-            
-            
-# tell exit button to quit GUI on click
-def Exit():
-    quit()
-	
-	#create Button + parameters, reference to def Exit 
-btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
-btn_exit.grid(column=4, row=0, padx= 40)
-
-#create set name text box
-lbl_name = Label(window, text="Name")
-lbl_name.grid(column=0, row=1)
-
-#lbl_id = Label(window, text="ID Number")
-#lbl_id.grid(column=0, row=4)
-
-txt_name = Entry(window,width=15)
-txt_name.grid(column=1, row=1)
-
-#user list button
-btn_deleteUser = Button(window, text="User List", bg="black", fg="white",command=deleteUser)
-btn_deleteUser.grid(column=0, row=10, padx= 40)
-
-window.mainloop()
