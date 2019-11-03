@@ -6,12 +6,19 @@ import numpy as np
 import PIL.Image 
 from tkinter import *
 import json
+import socket
 
 window=Tk()
 
 window.title("Running Python Script")
 window.geometry('550x250')
 
+
+TCP_IP = '127.0.0.1'
+TCP_PORT = 5005
+BUFFER_SIZE = 1024
+MESSAGE = "hello"
+DISCON = "Client disconnected"
 
 user_dict = {
 
@@ -29,7 +36,12 @@ except:
 def addFace():
 
     name = txt_name.get()
-    id_number = len(user_dict.keys()) + 1
+
+    if not user_dict:
+        id_number = 1
+    else:
+        id_number = int(list(user_dict.keys())[-1])+1
+        
     print("id number at start ",id_number)
     path = os.path.dirname(os.path.abspath(__file__))
     cam = cv2.VideoCapture(cv2.CAP_DSHOW)
@@ -76,8 +88,7 @@ def addFace():
                         cam.release()
                         cv2.destroyWindow('im')
                         print("Successfully taken photos set id number is ",id_number)
-                        id_number += 1
-                        
+                        id_number += 1                        
 
                     break
                     
@@ -164,9 +175,25 @@ def detector():
     fontScale = 1 
     fontColor = (255, 255, 255)
     
+    
+    
+    try:
+        connected = False
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((TCP_IP, TCP_PORT))
+        print("connected to external server")
+        connected = True
+        #print(bool(connected))
+    except:
+        connected = False
+        print("could not connect to a server")
+        
     try:
         while True:
-    
+            
+            
+            
+            
             ret, im =cam.read()    # Read the video frame
             gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)     # Convert the captured frame into grayscale
             faces=faceCascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(100, 100), flags=cv2.CASCADE_SCALE_IMAGE) # Get all faces from the video frame
@@ -178,16 +205,34 @@ def detector():
                 
                 if str(nbr_predicted) in user_dict:
                     nbr_predicted = user_dict[str(nbr_predicted)]
+
                 else:
                     nbr_predicted = "unknown"
-                # Check the if ID exist 
+
                 
             cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
             cv2.imshow('Face Detector',im)
-    
+            
+            if connected is True:
+                #print("sending data")
+                try:
+                    
+                    s.send(nbr_predicted.encode('utf-8'))    
+                except:
+                    pass
+        
             # If 'q' is pressed, close window
             if cv2.waitKey(2) & 0xFF == ord('q'):
+            
+                if connected is True:
+                    s.send(DISCON.encode('utf-8'))
+                    #data = s.recv(BUFFER_SIZE).decode('utf-8')
+                    #print("received data:", data)                    
+                    s.close()
+                    print("disconnected from server")
+                    
                 break
+
             
         # Stop the camera
         cam.release()
@@ -196,23 +241,40 @@ def detector():
         cv2.destroyAllWindows()
         
     except:
+        #s.send(DISCON.encode('utf-8'))
         print("No faces detected in frame.")
         print("Make sure you are infront of the camera")
         
-#create Button + parameters, reference to def detector
-btn_detect = Button(window, text="Detect", bg="black", fg="white",command=detector)
-btn_detect.grid(column=2, row=0, padx= 40)
+
 
 def deleteUser():
-
+    
     lbt=ListUserBox()
         
-        
+    
 # tell exit button to quit GUI on click
 def Exit():
     quit()
-	
-	#create Button + parameters, reference to def Exit 
+
+  
+def client():
+      
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((TCP_IP, TCP_PORT))
+    s.send(MESSAGE.encode('utf-8'))
+    data = s.recv(BUFFER_SIZE).decode('utf-8')
+    s.close()
+    print("received data:", data)
+
+#create Button + parameters, reference to def detector
+btn_detect = Button(window, text="Detect", bg="black", fg="white",command=detector)
+btn_detect.grid(column=2, row=0, padx= 40)     
+
+#create Button + parameters, reference to def client
+# btn_detect = Button(window, text="Send data", bg="black", fg="white",command=client)
+# btn_detect.grid(column=2, row=5, padx= 40)
+
+#create Button + parameters, reference to def Exit 
 btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
 btn_exit.grid(column=4, row=0, padx= 40)
 
@@ -243,17 +305,17 @@ class ListUserBox :
         items = self.list_box_1.curselection()
         pos = 0
         for i in items :
-            id_number = self.list_box_1.get(i)
+            id_number_del = self.list_box_1.get(i)
             idx = int(i) - pos
             self.list_box_1.delete( idx,idx )
             pos = pos + 1
             
-            text = str(id_number)
+            text = str(id_number_del)
             sep = ':'
             rest = text.split(sep, 1)[0]
         
             try:
-                print(id_number + " has been deleted")
+                print(id_number_del + " has been deleted")
                 #print(int(rest))
                 del user_dict[str(rest)]
                 j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
