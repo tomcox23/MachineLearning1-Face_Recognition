@@ -7,10 +7,7 @@ import PIL.Image
 from tkinter import *
 import json
 import socket
-from tkinter import ttk  # Normal Tkinter.* widgets are not themed!
-from ttkthemes import ThemedTk
 
-window = ThemedTk(theme="arc")
 window.title("Facial Recognition Menu")
 window.geometry('550x250')
 
