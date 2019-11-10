@@ -18,6 +18,10 @@ Folders that need to be created in the root working directory.
 * Create an empty Folder named **"dataSetFolders"** in the same directory
 * Create an empty folder called **trainer** In same directory 
 
+tkinter gui designer
+PAGE http://page.sourceforge.net/
+requires https://www.activestate.com/products/tcl/downloads/
+
 ## How To Use
 all commands run using the anaconda terminal. run by typing "python GUI.py" to run the user interface for example.
 
