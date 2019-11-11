@@ -54,8 +54,9 @@ def vp_start_gui():
     top = Toplevel1 (root)
     guiV2_support.init(root, top)
     root.mainloop()
+    w = None
+    
 
-w = None
 def create_Toplevel1(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
@@ -73,7 +74,7 @@ def destroy_Toplevel1():
     
 def addFace(self):
     
-    name = self.Text1.get()
+    name = self.Text1.get("1.0", 'end-1c')
 
     if not user_dict:
         id_number = 1
@@ -200,9 +201,7 @@ def detector():
     # Set the font style
     fontFace = cv2.FONT_HERSHEY_SIMPLEX  #Creates a font
     fontScale = 1 
-    fontColor = (255, 255, 255)
-    
-    
+    fontColor = (255, 255, 255)    
     
     try:
         connected = False
@@ -216,9 +215,6 @@ def detector():
         
     try:
         while True:
-            
-            
-            
             
             ret, im =cam.read()    # Read the video frame
             gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)     # Convert the captured frame into grayscale
@@ -241,8 +237,7 @@ def detector():
             
             if connected is True:
                 #print("sending data")
-                try:
-                    
+                try:                    
                     s.send(nbr_predicted.encode('utf-8'))    
                 except:
                     pass
@@ -267,7 +262,6 @@ def detector():
         cv2.destroyAllWindows()
         
     except:
-        #s.send(DISCON.encode('utf-8'))
         print("No faces detected in frame.")
         print("Make sure you are infront of the camera")
     
@@ -277,8 +271,7 @@ def Exit():
 
 
 def deleteUser():
-    lbt=ListUserBox()
-    
+    lbt=ListUserBox()  
 
 
 class Toplevel1:
@@ -310,7 +303,7 @@ class Toplevel1:
         top.title("Facial Recognition Menu")
         top.configure(background="#202020")
 
-        self.ButtonAddface = tk.Button(top, command=addFace)
+        self.ButtonAddface = tk.Button(top, command= lambda: addFace(self))
         self.ButtonAddface.place(relx=0.167, rely=0.375, height=54, width=117)
         self.ButtonAddface.configure(activebackground="#ececec")
         self.ButtonAddface.configure(activeforeground="#000000")
