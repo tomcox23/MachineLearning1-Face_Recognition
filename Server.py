@@ -29,8 +29,8 @@ def basicServer():
         except:
             print("no more messages")
             break
-        lbl_data = Label(window, text=("received data:", data))
-        lbl_data.grid(column=1, row=3)
+        #lbl_data = Label(window, text=("received data:", data))
+        #lbl_data.grid(column=0, row=1, padx= 40)
         print("received data:", data)
 
         if data == "disconnect": break
@@ -48,9 +48,9 @@ def Exit():
 
     
 btn_exit = Button(window, text="Exit", bg="black", fg="white",command=Exit)
-btn_exit.grid(column=3, row=1, padx= 40)
+btn_exit.grid(column=1, row=0, padx= 40, pady= 30)
 
-btn_exit = Button(window, text="Start server", bg="black", fg="white",command=basicServer)
-btn_exit.grid(column=1, row=1, padx= 40)
+btn_Start = Button(window, text="Start server", bg="black", fg="white",command=basicServer)
+btn_Start.grid(column=0, row=0, padx= 40, pady= 30)
     
 window.mainloop()
