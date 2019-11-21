@@ -2,7 +2,7 @@
 all commands run using the anaconda terminal. run by typing <code>python guiV2.py</code> to run the user interface for example.
 
 ### GUI
-* To use the GUI run <code>python GUI.py</code> you will be able to run each script from in the GUI as well.
+* To use the GUI run <code>python guiV2.py</code> you will be able to run each script from in the GUI as well.
 
 ![GUI Layout](/readmeImages/main.PNG)
 
