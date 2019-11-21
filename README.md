@@ -12,69 +12,65 @@ how to install in the anaconda terminal I used eg. <code>Pip install Numpy</code
 * Pillow
 * Tkinter, should come with python 3.7
 
-Folders that need to be created in the root working directory.
-
-* Create an empty Folder named **"dataSet"** in the same directory where the python scripts are
-* Create an empty Folder named **"dataSetFolders"** in the same directory
-* Create an empty folder called **trainer** In same directory 
-
 tkinter gui designer
 PAGE http://page.sourceforge.net/
 requires https://www.activestate.com/products/tcl/downloads/
 
 ## How To Use
-all commands run using the anaconda terminal. run by typing "python GUI.py" to run the user interface for example.
+all commands run using the anaconda terminal. run by typing <code>python guiV2.py</code> to run the user interface for example.
 
 ### GUI
-* All scripts have been merged into the GUI.py script. The other seperate Scripts are now not used at all. "dataSetGenerator","trainer","detector"
 * To use the GUI run <code>python GUI.py</code> you will be able to run each script from in the GUI as well.
 
-![GUI Layout](/readmeImages/GUI.PNG)
+![GUI Layout](/readmeImages/main.PNG)
 
 #### First 
 
 * Add a name to the Name text Box
-
-![write name in text box](/readmeImages/Name1.PNG)
-
-#### Second
 * make sure you are the only person infront of the camera
 * Make sure you are not too close or far away from the camera and look directly at it.
 * Click add Face Button. this wll take 21 images of your face.
 
-![image window](/readmeImages/addface2.png)
-
+![image window](/readmeImages/mainAddperson.PNG)
+![console output](/readmeImages/addimages.png)
 ![console output](/readmeImages/AddfaceConsole.PNG)
 
 * The console will display the new list of people added and if the photos were successful
-#### Third
+#### Second
 * Click the Train Button. 
-
-#### Forth
+![console output](/readmeImages/mainTrain.png)
+#### Third
 * Click detect
 * This will bring up the camera window identifying whoever is in the frame
 * Push "Q" button to exit the camera window and go back to the GUI.
 
-![Detect window and GUI](/readmeImages/Detect.PNG)
+![Detect window and GUI](/readmeImages/detvideo.PNG)
 
-#### Fifth 
+#### Forth 
 * Click Exit button to exit the program
 
+### Delete Users
+* click user list button
+![userlist](/readmeImages/mainUser.PNG)
+![userlist](/readmeImages/mainDele.PNG)
+* click on user you want to delete
+![userlist](/readmeImages/userdel.PNG)
+![userlist](/readmeImages/delmes.PNG)
 
-## Old How To Use
+### SEND DATA TO SERVER
 
-### dataSetGenerator
-* In dataSetGenerator.py change Name "" to eg Name "11". this will set the name for the users imgages and folders. it must be an integer though. Next you run python dataSetGenerator.py.
-* Note, make sure the person you are taking a photo of is actually in the camera frame or it will error out if no face is being detected.
+#### First 
+* start server program with <code>python Server.py</code>
+#### Second 
+![server window](/readmeImages/server.PNG)
+* push start server button. 
+**this sets up the server ready for connection 
+![Server Start](/readmeImages/serverStart.PNG)
 
-### trainer
-* run python trainer.py.
+* Back in the main program push the DETECT button
+** this connects to the server and will stream data. ie who is in the video stream
+![detect](/readmeImages/mainDetec.PNG)
 
-### detector
- * The predictor number must be the same as the Name "11" in order to know who it is looiking at. ie predicting image set 11.
- * Run python detector.py
-
-### Issue Fix
-
-- no cv2 idendified = pip install opencv-python
-
+* Push Q to quit the video stream in the main application.
+** this will shut off the server
+![detect](/readmeImages/serverOut.PNG)
