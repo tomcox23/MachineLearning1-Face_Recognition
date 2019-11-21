@@ -15,7 +15,7 @@ BUFFER_SIZE = 20  # Normally 1024, but we want fast response
 def basicServer():
     
     print("server Starting")
-    
+    # Create a TCP socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)

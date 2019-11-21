@@ -74,7 +74,7 @@ def destroy_Toplevel1():
     
 def addFace(self):
     
-    name = self.Text1.get("1.0", 'end-1c')
+    name = self.Text1.get("1.0", 'end-1c') 
 
     if not user_dict:
         id_number = 1
@@ -185,7 +185,6 @@ def train():
 
 def detector():
     path = os.path.dirname(os.path.abspath(__file__))
-    
     # Create Local Binary Patterns Histograms for face recognization
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Load the trained mode
@@ -205,7 +204,7 @@ def detector():
     
     try:
         connected = False
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a TCP socket
         s.connect((TCP_IP, TCP_PORT))
         print("connected to external server")
         connected = True
@@ -226,7 +225,7 @@ def detector():
                 cv2.rectangle(im,(x-50,y-85),(x+w+50,y+h+50),(225,0,0),1) # Create rectangle around the face
                 
                 if str(nbr_predicted) in user_dict:
-                    nbr_predicted = user_dict[str(nbr_predicted)]
+                    nbr_predicted = user_dict[str(nbr_predicted)] # match video person shown in video from the user data base
 
                 else:
                     nbr_predicted = "unknown"
@@ -235,10 +234,11 @@ def detector():
             cv2.putText(im,str(nbr_predicted)+str(''), (x+50,y+h+30),fontFace, 1.1, (0,255,0)) #Draw the text Saying who is in the video
             cv2.imshow('Face Detector',im)
             
+            #send data of who is in video stream if there is a working connection
             if connected is True:
-                #print("sending data")
+               
                 try:                    
-                    s.send(nbr_predicted.encode('utf-8'))    
+                    s.send(nbr_predicted.encode('utf-8')) # send name of person to server  
                 except:
                     pass
         
@@ -246,10 +246,8 @@ def detector():
             if cv2.waitKey(2) & 0xFF == ord('q'):
             
                 if connected is True:
-                    s.send(DISCON.encode('utf-8'))
-                    #data = s.recv(BUFFER_SIZE).decode('utf-8')
-                    #print("received data:", data)                    
-                    s.close()
+                    s.send(DISCON.encode('utf-8')) # send server the disconnection message to tell it to shut off                
+                    s.close() # close connection of the socket
                     print("disconnected from server")
                     
                 break
@@ -262,18 +260,19 @@ def detector():
         cv2.destroyAllWindows()
         
     except:
+        # error messages for why the camera wont turn on
         print("No faces detected in frame.")
-        print("Make sure you are infront of the camera")
+        print("Make sure you are in-front of the camera")
     
-    
+    # exit program method
 def Exit():
     quit()
 
-
+    # call user list to be able to delete users
 def deleteUser():
     lbt=ListUserBox()  
 
-
+    # create and set all gui parameters
 class Toplevel1:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -302,8 +301,9 @@ class Toplevel1:
         top.resizable(1, 1)
         top.title("Facial Recognition Menu")
         top.configure(background="#202020")
-
-        self.ButtonAddface = tk.Button(top, command= lambda: addFace(self))
+        
+        # create add face button
+        self.ButtonAddface = tk.Button(top, command= lambda: addFace(self)) # sets button click event. calls addFace method
         self.ButtonAddface.place(relx=0.167, rely=0.375, height=54, width=117)
         self.ButtonAddface.configure(activebackground="#ececec")
         self.ButtonAddface.configure(activeforeground="#000000")
@@ -316,7 +316,8 @@ class Toplevel1:
         self.ButtonAddface.configure(pady="0")
         self.ButtonAddface.configure(text='''Add a Face''')
 
-        self.ButtonTrain = tk.Button(top, command=train)
+        # create add train
+        self.ButtonTrain = tk.Button(top, command=train) # sets button click event. calls train method
         self.ButtonTrain.place(relx=0.417, rely=0.375, height=54, width=117)
         self.ButtonTrain.configure(activebackground="#ececec")
         self.ButtonTrain.configure(activeforeground="#000000")
@@ -329,7 +330,8 @@ class Toplevel1:
         self.ButtonTrain.configure(pady="0")
         self.ButtonTrain.configure(text='''Train''')
 
-        self.ButtonDetect = tk.Button(top, command=detector)
+        # create detector button
+        self.ButtonDetect = tk.Button(top, command=detector) # sets button click event. calls detector method
         self.ButtonDetect.place(relx=0.667, rely=0.375, height=54, width=117)
         self.ButtonDetect.configure(activebackground="#ececec")
         self.ButtonDetect.configure(activeforeground="#000000")
@@ -342,7 +344,8 @@ class Toplevel1:
         self.ButtonDetect.configure(pady="0")
         self.ButtonDetect.configure(text='''Detect''')
 
-        self.ButtonUserList = tk.Button(top, command=deleteUser)
+        # create user list button
+        self.ButtonUserList = tk.Button(top, command=deleteUser) # sets button click event. calls deleteuser method
         self.ButtonUserList.place(relx=0.167, rely=0.625, height=54, width=117)
         self.ButtonUserList.configure(activebackground="#ececec")
         self.ButtonUserList.configure(activeforeground="#000000")
@@ -355,6 +358,7 @@ class Toplevel1:
         self.ButtonUserList.configure(pady="0")
         self.ButtonUserList.configure(text='''User List''')
 
+        # create enter name text box
         self.Text1 = tk.Text(top)
         self.Text1.place(relx=0.167, rely=0.2, relheight=0.11, relwidth=0.24)
         self.Text1.configure(background="white")
@@ -366,7 +370,7 @@ class Toplevel1:
         self.Text1.configure(selectbackground="#c4c4c4")
         self.Text1.configure(selectforeground="black")
         self.Text1.configure(wrap="word")
-
+    
         self.TLabel1 = ttk.Label(top)
         self.TLabel1.place(relx=0.167, rely=0.125, height=29, width=95)
         self.TLabel1.configure(background="#202020")
@@ -375,7 +379,8 @@ class Toplevel1:
         self.TLabel1.configure(relief="flat")
         self.TLabel1.configure(text='''Enter Name''')
 
-        self.ButtonExit = tk.Button(top, command=Exit)
+        # create exit button
+        self.ButtonExit = tk.Button(top, command=Exit) # sets button click event. calls Exit method
         self.ButtonExit.place(relx=0.417, rely=0.625, height=54, width=117)
         self.ButtonExit.configure(activebackground="#ececec")
         self.ButtonExit.configure(activeforeground="#000000")
@@ -391,7 +396,7 @@ class Toplevel1:
         self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
 
-        
+    # class to make a user list    
 class ListUserBox :
     def __init__(self) :
         self.root = Tk()
@@ -404,6 +409,7 @@ class ListUserBox :
         for key in sorted(user_dict):
             self.list_box_1.insert(END, '{}: {}'.format(key, user_dict[key]))
 
+    # delete user from the user list, JSON file and remove all stored data for that user        
     def DeleteSelection(self) :
         items = self.list_box_1.curselection()
         pos = 0
@@ -412,24 +418,23 @@ class ListUserBox :
             idx = int(i) - pos
             self.list_box_1.delete( idx,idx )
             pos = pos + 1
-            
+            # get name from the user list. 
             text = str(id_number_del)
             sep = ':'
             rest = text.split(sep, 1)[0]
         
             try:
                 print(id_number_del + " has been deleted")
-                #print(int(rest))
                 del user_dict[str(rest)]
                 j = json.dumps(user_dict) # j is now a string containing the data from dict in the json format.
                 with open('users.json', 'w') as f:
                     f.write(j)
                 print(user_dict)
-                shutil.rmtree("dataSetFolders/"+str(rest))
+                shutil.rmtree("dataSetFolders/"+str(rest)) # delete images and folder of user. shutil deletes non empty directories
                 f=0
                 while f < 21:
                     f += 1
-                    os.remove("dataSet/face-"+str(rest) +'.'+ str(f) + ".jpg")
+                    os.remove("dataSet/face-"+str(rest) +'.'+ str(f) + ".jpg") # delete all selected user images from dataset folder.
                     
                 break
             except KeyError:
